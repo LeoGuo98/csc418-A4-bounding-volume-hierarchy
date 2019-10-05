@@ -1,10 +1,11 @@
 #include "nearest_neighbor_brute_force.h"
+#include <iostream>
 #include <limits>// std::numeric_limits<double>::infinity();
 
-// double squared_distance(const int &x1, const int &x2){
-//   // actually, 3D
-//   return sqrt((pow(x1, 2) + pow(x2, 2)));
-// }
+double squared_distance(const Eigen::RowVector3d &x1, const Eigen::RowVector3d &x2){
+  // actually, 3D
+  return (x1 - x2).squaredNorm();
+}
 void nearest_neighbor_brute_force(
   const Eigen::MatrixXd & points,
   const Eigen::RowVector3d & query,
@@ -14,9 +15,15 @@ void nearest_neighbor_brute_force(
   I = -1;
   sqrD = 0;
 
-  // double min_dist = std::numeric_limits<double>::infinity();
-  // int points_size = points.size();
-  // for (int i = 0; i < points_size; i++){
-  //   auto point = points[i];
-  // }
+  double current_dist, min_dist = std::numeric_limits<double>::infinity();
+  int points_size = points.size();
+  Eigen::RowVectorXd point(3);
+  for (int i = 0; i < points_size; i += 3){
+    for (int j = 0; j < 3; j++)
+      point(j) = points(i, j);
+    if((current_dist = squared_distance(point, query)) < min_dist){
+      I = i;
+      min_dist = current_dist;
+    }
+  }
 }
