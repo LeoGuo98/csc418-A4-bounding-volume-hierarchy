@@ -17,7 +17,7 @@ void nearest_neighbor_brute_force(
 
   double current_dist, min_dist = std::numeric_limits<double>::infinity();
   int points_size = points.size();
-  Eigen::RowVectorXd point(3);
+  Eigen::RowVector3d point;
   for (int i = 0; i < points_size; i += 3){
     for (int j = 0; j < 3; j++)
       point(j) = points(i, j);
