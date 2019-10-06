@@ -22,6 +22,7 @@ AABBTree::AABBTree(
     std::vector<std::shared_ptr<Object>> left;
     std::vector<std::shared_ptr<Object>> right;
     std::shared_ptr<Object> object;
+    // TODO CLEAN UP
     for (int i = 0; i < objects_size; i++){
       object = objects[i];
       if(x_axis_len > y_axis_len && x_axis_len > z_axis_len){

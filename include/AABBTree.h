@@ -20,7 +20,7 @@ struct AABBTree : public Object, public std::enable_shared_from_this<AABBTree>
   std::shared_ptr<Object> right;
   // For debugging, keep track of the depth (root has depth == 0)
   int depth;
-  // For debugging, keep track of the number leaf, descendants 
+  // For debugging, keep track of the number leaf, descendants
   int num_leaves;
   // Construct a axis-aligned bounding box tree given a list of objects. Use the
   // midpoint along the longest axis of the box containing the given objects to
@@ -34,7 +34,7 @@ struct AABBTree : public Object, public std::enable_shared_from_this<AABBTree>
   // Side effects: num_leaves is set to objects.size() and left/right pointers
   // set to subtrees or leaf Objects accordingly.
   AABBTree(
-    const std::vector<std::shared_ptr<Object> > & objects, 
+    const std::vector<std::shared_ptr<Object> > & objects,
     int depth=0);
   // Object implementations (see Object.h for API)
   bool ray_intersect(

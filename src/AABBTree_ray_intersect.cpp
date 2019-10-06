@@ -1,4 +1,5 @@
 #include "AABBTree.h"
+#include <ray_intersect_box.h>
 
 // See AABBTree.h for API
 bool AABBTree::ray_intersect(
@@ -6,12 +7,9 @@ bool AABBTree::ray_intersect(
   const double min_t,
   const double max_t,
   double & t,
-  std::shared_ptr<Object> & descendant) const 
+  std::shared_ptr<Object> & descendant) const
 {
-  ////////////////////////////////////////////////////////////////////////////
-  // Replace with your code here:
   t = 0;
   return false;
-  ////////////////////////////////////////////////////////////////////////////
 }
 
