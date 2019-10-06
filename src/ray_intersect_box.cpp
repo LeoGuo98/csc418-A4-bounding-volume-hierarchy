@@ -13,12 +13,12 @@ bool ray_intersect_box(
                           1.0 / ray.direction(2));
 
   float hit_t_min, hit_t_max, t_y_min, t_y_max, t_z_min, t_z_max; // use float for the +inf/-inf
-  double box_x_min = box.min_corner(0);
-  double box_y_min = box.min_corner(1);
-  double box_z_min = box.min_corner(2);
-  double box_x_max = box.max_corner(0);
-  double box_y_max = box.max_corner(1);
-  double box_z_max = box.max_corner(2);
+  float box_x_min = box.min_corner(0);
+  float box_y_min = box.min_corner(1);
+  float box_z_min = box.min_corner(2);
+  float box_x_max = box.max_corner(0);
+  float box_y_max = box.max_corner(1);
+  float box_z_max = box.max_corner(2);
 
   // Solve for x/y line intersects
   if (inv_dir(0) > 0){
