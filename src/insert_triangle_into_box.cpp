@@ -21,9 +21,9 @@ void insert_triangle_into_box(
 
   B.min_corner(0) = B.min_corner(0) < min_vertex_x? B.min_corner(0): \
                     min_vertex_x;
-  B.min_corner(1) = B.min_corner(0) < min_vertex_y? B.min_corner(1): \
+  B.min_corner(1) = B.min_corner(1) < min_vertex_y? B.min_corner(1): \
                     min_vertex_y;
-  B.min_corner(2) = B.min_corner(0) < min_vertex_z? B.min_corner(2): \
+  B.min_corner(2) = B.min_corner(2) < min_vertex_z? B.min_corner(2): \
                     min_vertex_z;
   B.max_corner(0) = B.max_corner(0) > max_vertex_x? B.max_corner(0): \
                     max_vertex_x;

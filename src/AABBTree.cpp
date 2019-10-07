@@ -1,6 +1,7 @@
 #include <iostream>
 #include <assert.h>
 #include "AABBTree.h"
+#include <Eigen/Geometry>
 #include "insert_box_into_box.h"
 #include <math.h>
 
@@ -11,17 +12,22 @@ AABBTree::AABBTree(
   num_leaves(objects.size())
 {
   int objects_size = objects.size();
-  assert(objects_size > 1 && "Size of `objects` <= 1");
-  if (objects_size > 1){
+  if (objects_size <= 1)
+    exit(1);
+  else{
     for (int i = 0; i < objects_size; i++){
+      // Every object has a 'box'. MeshTriangle grows it on construction
       insert_box_into_box(objects[i]->box, this->box);
     }
 
-    auto x_axis_len = this->box.max_corner(0) - this->box.min_corner(0);
+    auto x_axis_len = this->box.max_corner.normalized()(0) - \
+                      this->box.min_corner.normalized()(0);
     auto x_axis_midpoint = x_axis_len / 2.0;
-    auto y_axis_len = this->box.max_corner(1) - this->box.min_corner(1);
+    auto y_axis_len = this->box.max_corner.normalized()(1) - \
+                      this->box.min_corner.normalized()(1);
     auto y_axis_midpoint = y_axis_len / 2.0;
-    auto z_axis_len = this->box.max_corner(2) - this->box.min_corner(2);
+    auto z_axis_len = this->box.max_corner.normalized()(2) - \
+                      this->box.min_corner.normalized()(2);
     auto z_axis_midpoint = z_axis_len / 2.0;
     assert(!isinf(x_axis_len) && "X axis inf");
     assert(!isinf(y_axis_len) && "Y axis inf");
