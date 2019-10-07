@@ -1,6 +1,8 @@
 #include "ray_intersect_triangle_mesh_brute_force.h"
 #include "ray_intersect_triangle.h"
 #include <limits.h>
+#include <iostream>
+#include <math.h>
 
 bool ray_intersect_triangle_mesh_brute_force(
   const Ray & ray,
@@ -15,12 +17,11 @@ bool ray_intersect_triangle_mesh_brute_force(
   hit_f = 0;
 
   bool ret;
-  int v_size = V.size();
-  int f_size = V.size();
+  int f_rows = F.rows();
   double best_t = std::numeric_limits<double>::infinity();
 
   Eigen::RowVector3d a, b, c; // vertices of triangle
-  for (int i = 0; i < f_size; i += 3){
+  for (int i = 0; i < f_rows; i++){
     for (int j = 0; j < 3; j++){
       a(j) = V(F(i, 0), j);
       b(j) = V(F(i, 1), j);
@@ -34,5 +35,5 @@ bool ray_intersect_triangle_mesh_brute_force(
     }
   }
   hit_t = best_t;
-  return (best_t != std::numeric_limits<double>::infinity());
+  return (!isinf(best_t));
 }

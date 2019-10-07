@@ -1,3 +1,4 @@
+#include <Eigen/Geometry>
 #include "ray_intersect_triangle.h"
 
 bool intersect_plane(
@@ -57,7 +58,6 @@ bool ray_intersect_triangle(
           tri_n.dot(edge2.cross(x2)) > 0){
           return true;
       }
-
   }
   return false;
 }
