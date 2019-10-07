@@ -13,7 +13,6 @@ AABBTree::AABBTree(
   int objects_size = objects.size();
   assert(objects_size > 1 && "Size of `objects` <= 1");
   if (objects_size > 1){
-    std::cout << "HERE" << std::endl;
     for (int i = 0; i < objects_size; i++){
       insert_box_into_box(objects[i]->box, this->box);
     }
@@ -57,7 +56,6 @@ AABBTree::AABBTree(
     else if (left.size() > 1)
       *this->left = AABBTree(left, a_depth + 1);
 
-    std::cout << "RIGHT: " << right.size() << std::endl;
     if (right.size() == 1)
       this->right = right[0];
     else if (right.size() > 1)
