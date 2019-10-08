@@ -3,12 +3,13 @@
 #include "MeshTriangle.h"
 #include "AABBTree.h"
 // Hint: use a list as a queue
-#include <list> 
+#include <list>
+#include <iostream>
 
 void find_all_intersecting_pairs_using_AABBTrees(
   const std::shared_ptr<AABBTree> & rootA,
   const std::shared_ptr<AABBTree> & rootB,
-  std::vector<std::pair<std::shared_ptr<Object>,std::shared_ptr<Object> > > & 
+  std::vector<std::pair<std::shared_ptr<Object>,std::shared_ptr<Object> > > &
     leaf_pairs)
 {
   std::list<std::pair<std::shared_ptr<Object>, std::shared_ptr<Object>>> queue;
@@ -19,16 +20,18 @@ void find_all_intersecting_pairs_using_AABBTrees(
   if (box_box_intersect(rootA->box, rootB->box))
     queue.push_back(std::make_pair(rootA, rootB));
   while (!queue.empty()){
-    node_pair = queue.front(); 
+    node_pair = queue.front();
     node_a = node_pair.first;
     node_b = node_pair.second;
-    
+    queue.pop_front();
+
     mesh_t_a = std::dynamic_pointer_cast<MeshTriangle>(node_a);
     mesh_t_b = std::dynamic_pointer_cast<MeshTriangle>(node_b);
 
     if (mesh_t_a && mesh_t_b)
-      leaf_pairs.push_back(std::make_pair(node_a, node_b));
+      leaf_pairs.push_back(std::make_pair(mesh_t_a, mesh_t_b));
     else if (mesh_t_a){
+    node_pair = queue.front();
       tree_b = std::dynamic_pointer_cast<AABBTree>(node_b);
       if (box_box_intersect(node_a->box, tree_b->left->box))
         queue.push_back(std::make_pair(node_a, tree_b->left));
@@ -38,9 +41,9 @@ void find_all_intersecting_pairs_using_AABBTrees(
     else if (mesh_t_b){
       tree_a = std::dynamic_pointer_cast<AABBTree>(node_a);
       if (box_box_intersect(node_b->box, tree_a->left->box))
-        queue.push_back(std::make_pair(node_b, tree_a->left));
+        queue.push_back(std::make_pair(tree_a->left, node_b));
       if (box_box_intersect(node_b->box, tree_a->right->box))
-        queue.push_back(std::make_pair(node_b, tree_a->right));
+        queue.push_back(std::make_pair(tree_a->right, node_b));
     }
     else{
       tree_a = std::dynamic_pointer_cast<AABBTree>(node_a);
