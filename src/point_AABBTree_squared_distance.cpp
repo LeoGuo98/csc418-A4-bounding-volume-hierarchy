@@ -29,13 +29,14 @@ bool point_AABBTree_squared_distance(
     sub_dist = cur_pair.first;
     cur_node = cur_pair.second;
     queue.pop();
-    if (sub_dist < min_dist){
+    if (sub_dist < min_dist && sub_dist >= min_sqrd && sub_dist <= max_sqrd){
       cloud_p = std::dynamic_pointer_cast<CloudPoint>(cur_node);
       if(cloud_p){
-          cloud_p->point_squared_distance(query, min_sqrd, max_sqrd, sub_dist, descendant);
-          if(sub_dist < min_dist){
-            min_dist = sub_dist;
-            descendant = cloud_p;
+          if(cloud_p->point_squared_distance(query, min_sqrd, max_sqrd, sub_dist, descendant)){
+            if(sub_dist < min_dist){
+              min_dist = sub_dist;
+              descendant = cloud_p;
+            }
           }
       }
       else{
@@ -44,10 +45,8 @@ bool point_AABBTree_squared_distance(
         left_dist = point_box_squared_distance(query, tree_node->left->box);
         right_dist = point_box_squared_distance(query, tree_node->right->box);
 
-        if (left_dist >= min_sqrd && left_dist <= max_sqrd)
-          queue.push(std::make_pair(left_dist, tree_node->left));
-        if (right_dist >= min_sqrd && right_dist <= max_sqrd)
-          queue.push(std::make_pair(right_dist, tree_node->right));
+        queue.push(std::make_pair(left_dist, tree_node->left));
+        queue.push(std::make_pair(right_dist, tree_node->right));
       }
     }
   }
