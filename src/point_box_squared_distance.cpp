@@ -5,5 +5,5 @@ double point_box_squared_distance(
   const BoundingBox & box)
 {
   auto center = 0.5 * (box.min_corner + box.max_corner);
-  return (center - query).squaredNorm();
+  return (box.center() - query).squaredNorm();
 }
