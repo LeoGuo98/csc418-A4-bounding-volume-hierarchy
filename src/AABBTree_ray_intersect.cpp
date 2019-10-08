@@ -3,6 +3,7 @@
 #include <limits.h>
 #include <ray_intersect_box.h>
 #include <ray_intersect_triangle.h>
+#include <iostream>
 
 // See AABBTree.h for API
 bool AABBTree::ray_intersect(
@@ -17,7 +18,9 @@ bool AABBTree::ray_intersect(
     double left_t = std::numeric_limits<double>::infinity();
     double right_t = std::numeric_limits<double>::infinity();
     // won't descend into if it doesn't even hit the box
+    descendant = this->left;
     left_hit = this->left->ray_intersect(ray, min_t, max_t, left_t, descendant);
+    descendant = this->right;
     right_hit = this->right->ray_intersect(ray, min_t, max_t, right_t, descendant);
 
     if (left_hit && right_hit){
@@ -34,6 +37,7 @@ bool AABBTree::ray_intersect(
     }
     else
       return false;
+    std::cout << "T "<<t<<std::endl;
     return true;
   }
   return false;
