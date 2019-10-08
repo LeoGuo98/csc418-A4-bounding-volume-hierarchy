@@ -1,5 +1,6 @@
 #include "AABBTree.h"
 #include "MeshTriangle.h"
+#include "CloudPoint.h"
 #include <limits.h>
 #include <ray_intersect_box.h>
 #include <ray_intersect_triangle.h>
@@ -31,15 +32,26 @@ bool AABBTree::ray_intersect(
       return false;
 
     std::shared_ptr<MeshTriangle> mesh_t;
+    std::shared_ptr<CloudPoint> cloud_p;
     if (t == left_t && left_hit){
       mesh_t = std::dynamic_pointer_cast<MeshTriangle>(this->left);
       if (mesh_t)
         descendant = this->left;
+      else{
+        cloud_p = std::dynamic_pointer_cast<CloudPoint>(this->left);
+        if (cloud_p)
+          descendant = this->left;
+      }
     }
     if(t == right_t && right_hit){
       mesh_t = std::dynamic_pointer_cast<MeshTriangle>(this->right);
       if (mesh_t)
         descendant = this->right;
+      else{
+        cloud_p = std::dynamic_pointer_cast<CloudPoint>(this->right);
+        if (cloud_p)
+          descendant = this->right;
+      }
     }
     return true;
   }

@@ -1,5 +1,9 @@
 #include "point_AABBTree_squared_distance.h"
+#include "point_box_squared_distance.h"
+#include "Object.h"
+#include "CloudPoint.h"
 #include <queue> // std::priority_queue
+#include <limits.h>
 
 bool point_AABBTree_squared_distance(
     const Eigen::RowVector3d & query,
@@ -9,9 +13,41 @@ bool point_AABBTree_squared_distance(
     double & sqrd,
     std::shared_ptr<Object> & descendant)
 {
-  ////////////////////////////////////////////////////////////////////////////
-  // Replace with your code here
-  sqrd = 0;
-  return false;
-  ////////////////////////////////////////////////////////////////////////////
+  std::priority_queue<std::pair<double, std::shared_ptr<Object>>> queue;
+  double min_dist = std::numeric_limits<double>::infinity();
+  double cur_dist = point_box_squared_distance(query, root->box);
+  double sub_dist, left_dist, right_dist;
+  std::shared_ptr<Object> cur_node;
+
+  queue.push(std::make_pair(cur_dist, root));
+
+  std::pair<double, std::shared_ptr<Object>> cur_pair;
+  std::shared_ptr<CloudPoint> cloud_p;
+  std::shared_ptr<AABBTree> tree_node;
+  while(!queue.empty()){
+    cur_pair = queue.top();
+    sub_dist = cur_pair.first;
+    cur_node = cur_pair.second;
+    queue.pop();
+    if (sub_dist < min_dist){
+      cloud_p = std::dynamic_pointer_cast<CloudPoint>(cur_node);
+      if(cloud_p){
+          // if(sub_dist = point_box_squared_distance(query, cloud_p->box) < min_dist){
+          min_dist = sub_dist;
+          descendant = cloud_p;
+          // }
+      }
+      else{
+        tree_node = std::dynamic_pointer_cast<AABBTree>(cur_node);
+
+        left_dist = point_box_squared_distance(query, tree_node->left->box);
+        if (left_dist < min_dist)
+          queue.push(std::make_pair(left_dist, tree_node->left));
+        right_dist = point_box_squared_distance(query, tree_node->right->box);
+        if (right_dist < min_dist)
+          queue.push(std::make_pair(right_dist, tree_node->right));
+      }
+    }
+  }
+  return (min_dist >= min_sqrd && min_dist <= max_sqrd);
 }
