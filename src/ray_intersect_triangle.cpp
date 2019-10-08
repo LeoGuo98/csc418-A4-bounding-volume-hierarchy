@@ -1,5 +1,6 @@
 #include <Eigen/Geometry>
 #include "ray_intersect_triangle.h"
+#include <limits.h>
 
 bool intersect_plane(
   const Ray & ray, const double min_t, const double max_t, const Eigen::RowVector3d &plane_point, const Eigen::RowVector3d &plane_normal, double & t)
@@ -36,7 +37,7 @@ bool ray_intersect_triangle(
   double & t)
 {
   // Replace with your code here:
-  // t = 0;
+  t = std::numeric_limits<double>::infinity();
 
   Eigen::RowVector3d q = B - A;
   Eigen::RowVector3d p = C - A;
@@ -45,6 +46,7 @@ bool ray_intersect_triangle(
   if (intersect_plane(ray, min_t, max_t, A, tri_n, plane_t)){
       // we now need to check and see if the the ray is inside the
       // triangle
+      t = plane_t;
       Eigen::RowVector3d point = ray.origin + plane_t * ray.direction;
       Eigen::RowVector3d edge0 = B - A;
       Eigen::RowVector3d edge1 = C - B;
@@ -57,7 +59,6 @@ bool ray_intersect_triangle(
       if (tri_n.dot(edge0.cross(x0)) > 0 &&
           tri_n.dot(edge1.cross(x1)) > 0 &&
           tri_n.dot(edge2.cross(x2)) > 0){
-          t = plane_t;
           return true;
       }
   }

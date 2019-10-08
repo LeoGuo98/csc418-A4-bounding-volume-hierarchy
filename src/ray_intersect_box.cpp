@@ -1,6 +1,8 @@
 #include "ray_intersect_box.h"
 #include <iostream>
 
+// @ credit - code derived given explanation in book, with extension description
+// to the 3D as described by Scratch a Pixel. (https://www.scratchapixel.com/index.php?redirect)
 bool ray_intersect_box(
   const Ray & ray,
   const BoundingBox& box,
