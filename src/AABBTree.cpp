@@ -13,7 +13,7 @@ AABBTree::AABBTree(
 {
   int objects_size = objects.size();
   if (objects_size <= 1)
-    exit(1);
+    throw;
   else{
     for (int i = 0; i < objects_size; i++){
       // Every object has a 'box'. MeshTriangle grows it on construction
@@ -63,7 +63,6 @@ AABBTree::AABBTree(
           right.push_back(object);
       }
     }
-
     if (left.size() == objects.size()){
       for(int i = left.size() / 2; i < left.size(); i++)
         right.push_back(left[i]);
@@ -76,12 +75,16 @@ AABBTree::AABBTree(
     }
     if (left.size() == 1)
       this->left = left[0];
-    if (left.size() > 1)
+    else if (left.size() > 1)
       this->left = std::make_shared<AABBTree>(left, a_depth + 1);
+    else
+      throw;
 
     if (right.size() == 1)
       this->right = right[0];
-    if (right.size() > 1)
+    else if (right.size() > 1)
       this->right = std::make_shared<AABBTree>(right, a_depth + 1);
+    else
+      throw;
   }
 }
