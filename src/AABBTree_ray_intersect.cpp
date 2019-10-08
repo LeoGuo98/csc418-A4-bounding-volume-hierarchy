@@ -1,5 +1,6 @@
 #include "AABBTree.h"
 #include "MeshTriangle.h"
+#include <limits.h>
 #include <ray_intersect_box.h>
 #include <ray_intersect_triangle.h>
 
@@ -11,16 +12,13 @@ bool AABBTree::ray_intersect(
   double & t,
   std::shared_ptr<Object> & descendant) const
 {
-  t = 0;
-  // TODO CloudPoint
   if(ray_intersect_box(ray, this->box, min_t, max_t)){
-    // try to cast the left/right to an AABB tree
     bool left_hit = false, right_hit = false;
-    double left_t, right_t;
-    if (this->left != NULL)
-      left_hit = this->left->ray_intersect(ray, min_t, max_t, left_t, descendant);
-    if (this->right != NULL)
-      right_hit = this->right->ray_intersect(ray, min_t, max_t, right_t, descendant);
+    double left_t = std::numeric_limits<double>::infinity();
+    double right_t = std::numeric_limits<double>::infinity();
+    // won't descend into if it doesn't even hit the box
+    left_hit = this->left->ray_intersect(ray, min_t, max_t, left_t, descendant);
+    right_hit = this->right->ray_intersect(ray, min_t, max_t, right_t, descendant);
 
     if (left_hit && right_hit){
       t = left_t < right_t? left_t: right_t;

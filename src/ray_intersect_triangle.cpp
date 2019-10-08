@@ -36,15 +36,16 @@ bool ray_intersect_triangle(
   double & t)
 {
   // Replace with your code here:
-  t = 0;
+  // t = 0;
 
   Eigen::RowVector3d q = B - A;
   Eigen::RowVector3d p = C - A;
   Eigen::RowVector3d tri_n = (q).cross(p).normalized();
-  if (intersect_plane(ray, min_t, max_t, A, tri_n, t)){
+  double plane_t;
+  if (intersect_plane(ray, min_t, max_t, A, tri_n, plane_t)){
       // we now need to check and see if the the ray is inside the
       // triangle
-      Eigen::RowVector3d point = ray.origin + t * ray.direction;
+      Eigen::RowVector3d point = ray.origin + plane_t * ray.direction;
       Eigen::RowVector3d edge0 = B - A;
       Eigen::RowVector3d edge1 = C - B;
       Eigen::RowVector3d edge2 = A - C;
@@ -56,6 +57,7 @@ bool ray_intersect_triangle(
       if (tri_n.dot(edge0.cross(x0)) > 0 &&
           tri_n.dot(edge1.cross(x1)) > 0 &&
           tri_n.dot(edge2.cross(x2)) > 0){
+          t = plane_t;
           return true;
       }
   }
