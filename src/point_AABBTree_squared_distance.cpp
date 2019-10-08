@@ -1,10 +1,12 @@
 #include "point_AABBTree_squared_distance.h"
+#include <bits/stdc++.h>
 #include "point_box_squared_distance.h"
 #include "Object.h"
 #include "CloudPoint.h"
 #include <queue> // std::priority_queue
 #include <limits.h>
 
+typedef std::pair<double, std::shared_ptr<Object>> q_pair;
 bool point_AABBTree_squared_distance(
     const Eigen::RowVector3d & query,
     const std::shared_ptr<AABBTree> & root,
@@ -13,7 +15,7 @@ bool point_AABBTree_squared_distance(
     double & sqrd,
     std::shared_ptr<Object> & descendant)
 {
-  std::priority_queue<std::pair<double, std::shared_ptr<Object>>> queue;
+  std::priority_queue<q_pair, std::vector<q_pair>, std::greater<q_pair>> queue;
   double min_dist = std::numeric_limits<double>::infinity();
   double cur_dist = point_box_squared_distance(query, root->box);
   double sub_dist, left_dist, right_dist;
