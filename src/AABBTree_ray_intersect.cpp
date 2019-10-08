@@ -18,25 +18,29 @@ bool AABBTree::ray_intersect(
     double left_t = std::numeric_limits<double>::infinity();
     double right_t = std::numeric_limits<double>::infinity();
     // won't descend into if it doesn't even hit the box
-    descendant = this->left;
     left_hit = this->left->ray_intersect(ray, min_t, max_t, left_t, descendant);
-    descendant = this->right;
     right_hit = this->right->ray_intersect(ray, min_t, max_t, right_t, descendant);
 
-    if (left_hit && right_hit){
+    if (left_hit && right_hit)
       t = left_t < right_t? left_t: right_t;
-      descendant = left_t < right_t? this->left: this->right;
-    }
-    else if (left_hit){
-      descendant = this->left;
+    else if (left_hit)
       t = left_t;
-    }
-    else if (right_hit){
-      descendant = this->right;
+    else if (right_hit)
       t = right_t;
-    }
     else
       return false;
+
+    std::shared_ptr<MeshTriangle> mesh_t;
+    if (t == left_t && left_hit){
+      mesh_t = std::dynamic_pointer_cast<MeshTriangle>(this->left);
+      if (mesh_t)
+        descendant = this->left;
+    }
+    if(t == right_t && right_hit){
+      mesh_t = std::dynamic_pointer_cast<MeshTriangle>(this->right);
+      if (mesh_t)
+        descendant = this->right;
+    }
     return true;
   }
   return false;

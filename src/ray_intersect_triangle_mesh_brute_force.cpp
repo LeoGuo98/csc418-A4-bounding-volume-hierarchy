@@ -13,8 +13,8 @@ bool ray_intersect_triangle_mesh_brute_force(
   double & hit_t,
   int & hit_f)
 {
-  hit_t = 0;
-  hit_f = 0;
+  // hit_t = 0;
+  // hit_f = 0;
 
   bool ret;
   int f_rows = F.rows();
