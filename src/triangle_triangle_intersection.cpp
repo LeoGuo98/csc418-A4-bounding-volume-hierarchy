@@ -13,7 +13,7 @@ bool triangle_triangle_intersection(
   // Simply, construct a 'ray' for each edge of the second triangle
   // and use the ray intersect triangle function, where min/max are defined
   // by the line that edge
-  double min_t = 0, max_t = 1, t;
+  double min_t = 1, max_t = 1, t;
   Ray ray(Eigen::Vector3d(0, 0, 0), Eigen::Vector3d(0, 0, 0));
 
   ray.origin = B0;
