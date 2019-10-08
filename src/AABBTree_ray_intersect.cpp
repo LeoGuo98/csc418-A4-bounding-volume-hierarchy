@@ -37,7 +37,6 @@ bool AABBTree::ray_intersect(
     }
     else
       return false;
-    std::cout << "T "<<t<<std::endl;
     return true;
   }
   return false;
