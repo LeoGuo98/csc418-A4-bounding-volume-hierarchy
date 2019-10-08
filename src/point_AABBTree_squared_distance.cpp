@@ -44,9 +44,9 @@ bool point_AABBTree_squared_distance(
         left_dist = point_box_squared_distance(query, tree_node->left->box);
         right_dist = point_box_squared_distance(query, tree_node->right->box);
 
-        if (left_dist < min_dist && left_dist < right_dist)
+        if (left_dist >= min_sqrd && left_dist <= max_sqrd)
           queue.push(std::make_pair(left_dist, tree_node->left));
-        else if (right_dist < min_dist)
+        if (right_dist >= min_sqrd && right_dist <= max_sqrd)
           queue.push(std::make_pair(right_dist, tree_node->right));
       }
     }

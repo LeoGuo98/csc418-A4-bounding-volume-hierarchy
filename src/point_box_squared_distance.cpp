@@ -16,13 +16,8 @@ double point_box_squared_distance(
       closest_point(i) = max_axis;
     else if (query_axis < min_axis)
       closest_point(i) = min_axis;
-    // in the middle - set to closest edge
     else{
-      if (abs(query_axis - max_axis) <
-          abs(query_axis - min_axis))
-        closest_point(i) = max_axis;
-      else
-        closest_point(i) = min_axis;
+      closest_point(i) = query_axis;
     }
   }
   return (closest_point - query).squaredNorm();
