@@ -16,11 +16,10 @@ void nearest_neighbor_brute_force(
   sqrD = 0;
 
   double current_dist, min_dist = std::numeric_limits<double>::infinity();
-  int points_size = points.size();
+  int points_rows = points.rows();
   Eigen::RowVector3d point;
-  for (int i = 0; i < points_size; i += 3){
-    for (int j = 0; j < 3; j++)
-      point(j) = points(i, j);
+  for (int i = 0; i < points_rows; i++){
+      point = points.row(i);
     if((current_dist = squared_distance(point, query)) < min_dist){
       I = i;
       min_dist = current_dist;

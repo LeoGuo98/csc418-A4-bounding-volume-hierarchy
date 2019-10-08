@@ -4,8 +4,6 @@ double point_box_squared_distance(
   const Eigen::RowVector3d & query,
   const BoundingBox & box)
 {
-  ////////////////////////////////////////////////////////////////////////////
-  // Replace with your code here
-  return 0;
-  ////////////////////////////////////////////////////////////////////////////
+  auto center = 0.5 * (box.min_corner + box.max_corner);
+  return (center - query).squaredNorm();
 }
